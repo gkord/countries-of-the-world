@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import axios from "axios";
+import Header from "./Components/Header";
+import Footer from "./Components/Footer";
 
 export default class App extends Component {
   constructor(){
@@ -20,7 +22,8 @@ componentDidMount() {
     },
   })
     .then(res => {
-      console.log(res);
+      const sixCountries = res.data.slice(0,6);
+      console.log(sixCountries);
       this.setState({
         country: res.data[0].name,
         flag: res.data[0].flag
@@ -33,8 +36,10 @@ componentDidMount() {
   render() {
     return (
       <div>
-        <h1>{this.state.country}</h1>
-        <img src={this.state.flag} alt="{`Flag of ${this.state.country}`}"/>
+        <Header />
+        <h2>{this.state.country}</h2>
+        <img src={this.state.flag} alt={`Flag of ${this.state.country}`}/>
+        <Footer />
       </div>
     )
   }
