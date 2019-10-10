@@ -5,7 +5,7 @@ import Countries from "./Components/Countries";
 import Footer from "./Components/Footer";
 import "./App.css";
 
-export default class App extends Component {
+class App extends Component {
   constructor() {
     super();
     this.state = {
@@ -64,3 +64,5 @@ export default class App extends Component {
     );
   }
 }
+
+export default App;
