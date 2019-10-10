@@ -3,6 +3,7 @@ import Modal from "./Modal";
 
 const Countries = props => {
   return (
+    //map through our array of countries and return necessary values
     <div className="country-container">
       {props.countryList.map(country => {
         return (

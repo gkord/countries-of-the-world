@@ -14,6 +14,7 @@ export default class App extends Component {
     };
   }
 
+  //make our API call on page load and render data
   componentDidMount() {
     axios({
       method: "GET",
@@ -25,38 +26,39 @@ export default class App extends Component {
     })
       .then(res => {
         const sixCountries = res.data.slice(0, 6);
-        console.log(sixCountries);
         this.setState({
           countries: sixCountries
         });
+        console.log(this.state.countries)
       })
       .catch(err => {
         console.log(err);
       });
   }
 
+  //opens our modal
   openModal = () => {
     this.setState({
-      isShowing: true
-    })
+      isShowing: true,
+    });
   };
-
+  // closes our modal
   closeModal = () => {
     this.setState({
       isShowing: false
-    })
-  }
+    });
+  };
 
   render() {
     return (
       <div className="app-container">
         <Header />
-        <Countries 
-        countryList={this.state.countries}
-        openModal={this.openModal}
-        closeModal={this.closeModal}
-        isShowing={this.state.isShowing}
-         />
+        <Countries
+          countryList={this.state.countries}
+          openModal={this.openModal}
+          closeModal={this.closeModal}
+          isShowing={this.state.isShowing}
+        />
         <Footer />
       </div>
     );
