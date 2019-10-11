@@ -35,9 +35,14 @@ export default class App extends Component {
         console.log(err);
       });
   }
-
+  mapArray = () => {
+    this.state.countries.map(country => {
+      console.log(country.capital)
+    })
+  }
   //opens our modal
   openModal = () => {
+    this.mapArray()
     this.setState({
       isShowing: true,
     });

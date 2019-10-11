@@ -1,23 +1,24 @@
 import React from "react";
 import Modal from "./Modal";
 
-const Countries = props => {
+const Countries = ({countryList, openModal, closeModal, isShowing})=> {
+  
   return (
     //map through our array of countries and return necessary values
     <div className="country-container">
-      {props.countryList.map(country => {
+      {countryList.map(country => {
         return (
           <div className="country" key={country.numericCode}>
             <p>{country.name}</p>
             <img src={country.flag} alt={country.name} />
-            <button onClick={props.openModal}>Click For More Facts</button>
+            <button onClick={openModal}>Click For More Facts</button>
           </div>
         );
       })}
-      {props.isShowing && (
+      {isShowing && (
         <Modal
-          countryList={props.countryList}
-          closeModal={props.closeModal}
+          countryList={countryList}
+          closeModal={closeModal}
         />
       )}
     </div>
