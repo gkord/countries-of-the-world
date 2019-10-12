@@ -1,1 +1,1 @@
-A React application that calls the RestCountries API and returns the name and flag of 6 countries. Due to time constraints the rest of the functionality is incomplete however user can click on a button for "more facts" and a modal will appear that would theoretically contain more data on the country selected.
+A React application that calls the RestCountries API and returns the name and flag of 6 countries. User can search by region. Currently working on functionality of rendering more data into a modal when user clicks on "More Info"
