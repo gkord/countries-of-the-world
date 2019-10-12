@@ -1,26 +1,18 @@
 import React from "react";
 
-function Search(props) {
+const Modal = props => {
   return (
-    <div className="search-container">
-      <form action="">
-        <label htmlFor="searchResult" className="visuallyHidden"></label>
-        <input
-          type="text"
-          name="searchResult"
-          id="searchResult"
-          value={props.searchResult}
-          onChange={props.handleChange}
-          placeholder="Enter region in here"
-        />
-        <label htmlFor="submit" className="visuallyHidden"></label>
-        <button type="submit" onClick={props.handleSubmit} id="submit">
-          Search
-        </button>
-      </form>
+    <div>
+      <div className="modal-container">
+        <div className="modal-header">
+          <span className="close-modal-button" onClick={props.closeModal}>
+            ×
+          </span>
+        </div>
+        <div className="modal-body">{props.children}</div>
+      </div>
     </div>
   );
-}
+};
 
-export default Search;
-
+export default Modal;
