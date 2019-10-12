@@ -1,16 +1,16 @@
 import React from "react";
 
-const Modal = ({closeModal}) => {
+const Modal = (props) => {
   return (
     <div>
       <div className="modal-container">
         <div className="modal-header">
-          <span className="close-modal-button" onClick={closeModal}>
+          <span className="close-modal-button" onClick={props.closeModal}>
             ×
           </span>
         </div>
         <div className="modal-body">
-            <h2>Country Data Goes Here</h2>
+            {props.children}
         </div>
       </div>
     </div>

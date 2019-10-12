@@ -1,7 +1,6 @@
 import React from "react";
-import Modal from "./Modal";
 
-const Countries = ({countryList, openModal, closeModal, isShowing})=> {
+const Countries = ({countryList, openModal})=> {
   
   return (
     //map through our array of countries and return necessary values
@@ -15,12 +14,6 @@ const Countries = ({countryList, openModal, closeModal, isShowing})=> {
           </div>
         );
       })}
-      {isShowing && (
-        <Modal
-          countryList={countryList}
-          closeModal={closeModal}
-        />
-      )}
     </div>
   );
 };

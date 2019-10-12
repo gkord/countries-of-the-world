@@ -34,7 +34,12 @@ img {
   width: 250px;
 }
 
-
+.search-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .modal-container {
     position: fixed;
     padding: 20px;

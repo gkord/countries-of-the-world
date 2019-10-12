@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Header from "./Components/Header";
+import Search from "./Components/Search"
 import Countries from "./Components/Countries";
+import Modal from "./Components/Modal";
 import Footer from "./Components/Footer";
 import "./App.css";
 
@@ -10,15 +12,33 @@ class App extends Component {
     super();
     this.state = {
       countries: [],
-      isShowing: false
+      isShowing: false,
+      searchResult: ''
     };
   }
 
   //make our API call on page load and render data
   componentDidMount() {
+  }
+
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
+  handleSubmit = event => {
+    event.preventDefault();
+    this.setState({
+      searchResult: this.state.searchResult
+    })
+    this.getCountry();
+  }
+
+  getCountry = () => {
     axios({
       method: "GET",
-      url: "https://restcountries.eu/rest/v2/all",
+      url: `https://restcountries.eu/rest/v2/region/${this.state.searchResult}`,
       dataResponse: "json",
       params: {
         format: "json"
@@ -29,20 +49,15 @@ class App extends Component {
         this.setState({
           countries: sixCountries
         });
-        console.log(this.state.countries)
+        console.log(this.state.countries);
       })
       .catch(err => {
-        console.log(err);
+        alert(err);
       });
   }
-  mapArray = () => {
-    this.state.countries.map(country => {
-      console.log(country.capital)
-    })
-  }
+
   //opens our modal
   openModal = () => {
-    this.mapArray()
     this.setState({
       isShowing: true,
     });
@@ -58,12 +73,28 @@ class App extends Component {
     return (
       <div className="app-container">
         <Header />
+        <Search 
+        searchResult={this.state.searchResult}
+        handleChange={this.handleChange}
+        handleSubmit={this.handleSubmit}
+        />
         <Countries
           countryList={this.state.countries}
           openModal={this.openModal}
           closeModal={this.closeModal}
           isShowing={this.state.isShowing}
+          activeCountry={this.state.activeCountry}
+          changeActive={this.changeActive}
         />
+        {this.state.isShowing && (
+          <Modal
+            closeModal={this.closeModal}
+          >
+            {this.state.countries.map(country => {
+              return country.name
+            })}
+          </Modal>
+        )}
         <Footer />
       </div>
     );
