@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import Header from "./Components/Header";
 import Search from "./Components/Search";
@@ -7,37 +7,38 @@ import Modal from "./Components/Modal";
 import Footer from "./Components/Footer";
 import "./App.css";
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      countries: [],
-      isShowing: false,
-      searchResult: ""
-    };
-  }
+const App = () => {
+
+  const [state, setState] = useState({
+    countries: [],
+    isShowing: false,
+    searchResult: ""
+  })  
 
   //logs the data typed into search field and sets state
-  handleChange = e => {
-    this.setState({
+  const handleChange = e => {
+    e.persist();
+    setState(prevState => ({
+      ...prevState,
       [e.target.name]: e.target.value
-    });
+    }));
   };
 
   //handles user click on submit button and calls our API
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
-    this.setState({
-      searchResult: this.state.searchResult
-    });
-    this.getCountry();
+    setState(prevState => ({
+      ...prevState,
+      searchResult: state.searchResult
+    }));
+    getCountry();
   };
 
   //API call lives in here
-  getCountry = () => {
+  const getCountry = () => {
     axios({
       method: "GET",
-      url: `https://restcountries.eu/rest/v2/region/${this.state.searchResult}`,
+      url: `https://restcountries.eu/rest/v2/region/${state.searchResult}`,
       dataResponse: "json",
       params: {
         format: "json"
@@ -45,10 +46,10 @@ class App extends Component {
     })
       .then(res => {
         const sixCountries = res.data.slice(0, 6);
-        this.setState({
+        setState(prevState => ({
+          ...prevState,
           countries: sixCountries
-        });
-        console.log(this.state.countries);
+        }));
       })
       .catch(err => {
         alert(err);
@@ -56,38 +57,38 @@ class App extends Component {
   };
 
   //opens our modal
-  openModal = () => {
-    this.setState({
+  const openModal = () => {
+    setState(prevState =>({
+      ...prevState,
       isShowing: true
-    });
+    }));
   };
   // closes our modal
-  closeModal = () => {
-    this.setState({
+  const closeModal = () => {
+    setState(prevState => ({
+      ...prevState,
       isShowing: false
-    });
+    }));
   };
 
-  render() {
     return (
       <div className="app-container">
         <Header />
         <Search
-          searchResult={this.state.searchResult}
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
+          searchResult={state.searchResult}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
         />
         <Countries
-          countryList={this.state.countries}
-          openModal={this.openModal}
-          closeModal={this.closeModal}
-          isShowing={this.state.isShowing}
-          activeCountry={this.state.activeCountry}
-          changeActive={this.changeActive}
+          countryList={state.countries}
+          openModal={openModal}
+          closeModal={closeModal}
+          isShowing={state.isShowing}
+          activeCountry={state.activeCountry}
         />
-        {this.state.isShowing && (
-          <Modal closeModal={this.closeModal}>
-            {this.state.countries.map(country => {
+        {state.isShowing && (
+          <Modal closeModal={closeModal}>
+            {state.countries.map(country => {
               return country.name;
             })}
           </Modal>
@@ -96,6 +97,5 @@ class App extends Component {
       </div>
     );
   }
-}
 
 export default App;
