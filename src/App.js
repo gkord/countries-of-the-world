@@ -1,19 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "./Components/Header";
 import Search from "./Components/Search";
 import Countries from "./Components/Countries";
+import Pagination from "./Components/Pagination";
 import Modal from "./Components/Modal";
 import Footer from "./Components/Footer";
 import "./App.css";
 
 const App = () => {
-
   const [state, setState] = useState({
     countries: [],
     isShowing: false,
-    searchResult: ""
-  })  
+    searchResult: "",
+    loading: true,
+    currentPage: 1,
+    countriesPerPage: 6
+  });
 
   //logs the data typed into search field and sets state
   const handleChange = e => {
@@ -45,10 +48,11 @@ const App = () => {
       }
     })
       .then(res => {
-        const sixCountries = res.data.slice(0, 6);
+        const myCountries = res.data;
         setState(prevState => ({
           ...prevState,
-          countries: sixCountries
+          countries: myCountries,
+          loading: false
         }));
       })
       .catch(err => {
@@ -58,7 +62,7 @@ const App = () => {
 
   //opens our modal
   const openModal = () => {
-    setState(prevState =>({
+    setState(prevState => ({
       ...prevState,
       isShowing: true
     }));
@@ -71,31 +75,48 @@ const App = () => {
     }));
   };
 
-    return (
-      <div className="app-container">
-        <Header />
-        <Search
-          searchResult={state.searchResult}
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-        />
-        <Countries
-          countryList={state.countries}
-          openModal={openModal}
-          closeModal={closeModal}
-          isShowing={state.isShowing}
-          activeCountry={state.activeCountry}
-        />
-        {state.isShowing && (
-          <Modal closeModal={closeModal}>
-            {state.countries.map(country => {
-              return country.name;
-            })}
-          </Modal>
-        )}
-        <Footer />
-      </div>
-    );
-  }
+  // create current countries (6 per page)
+  const indexOfLastCountry = state.currentPage * state.countriesPerPage;
+  const indexOfFirstCountry = indexOfLastCountry - state.countriesPerPage;
+  const currentCountries = state.countries.slice(
+    indexOfFirstCountry,
+    indexOfLastCountry
+  );
+
+  // change page number
+  const paginate = (pageNumber) => {
+    setState(prevState =>({
+      ...prevState,
+      currentPage: pageNumber
+    }))
+}
+
+  return (
+    <div className="app-container">
+      <Header />
+      <Search
+        searchResult={state.searchResult}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+      />
+      <Countries
+        countryList={currentCountries}
+        openModal={openModal}
+        closeModal={closeModal}
+        isShowing={state.isShowing}
+        activeCountry={state.activeCountry}
+      />
+      <Pagination countriesPerPage={state.countriesPerPage} totalCountries={state.countries.length} paginate={paginate} />
+      {state.isShowing && (
+        <Modal closeModal={closeModal}>
+          {state.countries.map(country => {
+            return country.name;
+          })}
+        </Modal>
+      )}
+      <Footer />
+    </div>
+  );
+};
 
 export default App;
