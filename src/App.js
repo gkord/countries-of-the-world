@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import Header from "./Components/Header";
 import Search from "./Components/Search";
@@ -84,12 +84,12 @@ const App = () => {
   );
 
   // change page number
-  const paginate = (pageNumber) => {
-    setState(prevState =>({
+  const paginate = pageNumber => {
+    setState(prevState => ({
       ...prevState,
       currentPage: pageNumber
-    }))
-}
+    }));
+  };
 
   return (
     <div className="app-container">
@@ -106,7 +106,11 @@ const App = () => {
         isShowing={state.isShowing}
         activeCountry={state.activeCountry}
       />
-      <Pagination countriesPerPage={state.countriesPerPage} totalCountries={state.countries.length} paginate={paginate} />
+      <Pagination
+        countriesPerPage={state.countriesPerPage}
+        totalCountries={state.countries.length}
+        paginate={paginate}
+      />
       {state.isShowing && (
         <Modal closeModal={closeModal}>
           {state.countries.map(country => {

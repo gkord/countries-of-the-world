@@ -14,6 +14,10 @@ header, footer {
   text-align: center;
 }
 
+h1{
+  margin: 10px 0px;
+}
+
 .country-container {
   height: 100%;
   width: 100%;
@@ -26,10 +30,10 @@ header, footer {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   border: 2px solid black;
-  border-radius: 5%;
+  border-radius: 20px;
   margin: 1%;
 }
 
@@ -42,8 +46,11 @@ header, footer {
 }
 
 img {
-  height: 150px;
+  height: 120px;
   width: 220px;
+}
+form{
+  display: flex;
 }
 
 .search-container {
@@ -74,6 +81,10 @@ img {
 
 .close-modal-button {
   cursor: pointer;
+}
+
+::placeholder{
+  font-size: 16px ;
 }
 
 @media (max-width: 768px) {

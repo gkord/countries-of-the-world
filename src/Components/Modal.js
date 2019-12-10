@@ -1,15 +1,15 @@
 import React from "react";
 
-const Modal = props => {
+const Modal = ({closeModal, children}) => {
   return (
     <div>
       <div className="modal-container">
         <div className="modal-header">
-          <span className="close-modal-button" onClick={props.closeModal}>
+          <span className="close-modal-button" onClick={closeModal}>
             ×
           </span>
         </div>
-        <div className="modal-body">{props.children}</div>
+        <div className="modal-body">{children}</div>
       </div>
     </div>
   );

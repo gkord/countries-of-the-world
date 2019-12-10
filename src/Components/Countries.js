@@ -8,7 +8,9 @@ const Countries = ({ countryList, openModal }) => {
         return (
           <div className="country" key={country.numericCode}>
             <p>{country.name}</p>
-            <img src={country.flag} alt={country.name} />
+            <div className="img-container">
+              <img src={country.flag} alt={country.name} />
+            </div>
             <button className="fact-button" onClick={openModal}>
               Click For More Facts
             </button>
